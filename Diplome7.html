@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Diplôme de ceinture - Karaté Mix (ceinture couleur)</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      margin: 0;
+      background: #eeeeee;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .page {
+      width: 297mm;
+      height: 210mm;
+      background: white;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      padding: 18mm 20mm;
+    }
+
+    /* ── Ceinture de couleur en fond (SVG vectoriel recolorable) ── */
+    .belt-wrap {
+      position: absolute;
+      top: 30mm;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 55%;
+      z-index: 0;
+      opacity: 0.72;
+      pointer-events: none;
+      color: var(--belt-color, #e67e22);
+    }
+
+    .belt-wrap svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .top-left,
+    .top-right,
+    .bottom-left,
+    .bottom-right {
+      position: absolute;
+    }
+
+    .top-left {
+      top: 8mm;
+      left: 2mm;
+    }
+
+    .top-right {
+      top: 8mm;
+      right: 2mm;
+    }
+
+    .content {
+      text-align: center;
+      color: #1a1a1a;
+      position: relative;
+      z-index: 2;
+      padding-top: 0;
+    }
+
+    h1 {
+      font-family: Arial Black, Impact, sans-serif;
+      font-size: 14mm;
+      margin: 0 0 8mm 0;
+      font-weight: 900;
+      letter-spacing: -0.5mm;
+    }
+
+    .belt {
+      font-size: 8mm;
+      font-weight: 700;
+      display: inline-block;
+      min-width: 98mm;
+      border-bottom: 1.5px dashed #555;
+      line-height: 8mm;
+      margin-bottom: 10mm;
+      text-transform: capitalize;
+    }
+
+    h2 {
+      font-family: Arial Black, Impact, sans-serif;
+      font-size: 14mm;
+      margin: 0 0 6mm 0;
+      font-weight: 900;
+      letter-spacing: -0.4mm;
+    }
+
+    .small-title {
+      font-size: 8.5mm;
+      font-weight: 500;
+      margin-bottom: 8mm;
+    }
+
+    .name {
+      font-size: 8.8mm;
+      font-weight: 500;
+      display: inline-block;
+      min-width: 140mm;
+      border-bottom: 1.5px dashed #555;
+      line-height: 9mm;
+      margin-bottom: 8mm;
+      outline: none;
+    }
+
+    .name:focus {
+      background: #f0f6ff;
+      border-bottom-color: #243a7a;
+    }
+
+    .date {
+      font-size: 7.3mm;
+      font-weight: 700;
+      margin-bottom: 8mm;
+    }
+
+    .club {
+      font-size: 6.6mm;
+      font-weight: 800;
+      margin-bottom: 7mm;
+    }
+
+    .teacher-label {
+      font-size: 8.2mm;
+      font-weight: 500;
+      margin-bottom: 2mm;
+    }
+
+    .teacher {
+      font-size: 8mm;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .dan {
+      font-size: 8mm;
+      font-weight: 900;
+    }
+
+    .dan sup {
+      font-size: 4mm;
+      vertical-align: super;
+      margin-left: 1mm;
+      margin-right: 1mm;
+    }
+
+    .bottom-left {
+      left: 8mm;
+      bottom: 8mm;
+    }
+
+    .bottom-right {
+      right: 8mm;
+      bottom: 8mm;
+    }
+
+    /* ── Barre d'outils ── */
+    .toolbar {
+      text-align: center;
+      padding: 8px 0 12px 0;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .toolbar label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #243a7a;
+    }
+
+    .toolbar select {
+      padding: 9px 14px;
+      font-size: 15px;
+      border: 1.5px solid #243a7a;
+      border-radius: 6px;
+      background: white;
+      color: #243a7a;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .toolbar button {
+      background: #243a7a;
+      color: white;
+      border: none;
+      padding: 10px 28px;
+      font-size: 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+    }
+
+    .toolbar button:hover {
+      background: #1a2e60;
+    }
+
+    @media print {
+      .toolbar {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="toolbar">
+    <label for="grade">Grade :</label>
+    <select id="grade" onchange="changerCeinture(this.value)">
+      <option value="Jaune">Jaune</option>
+      <option value="Orange" selected>Orange</option>
+      <option value="Verte">Verte</option>
+      <option value="Bleu">Bleu</option>
+      <option value="Marron">Marron</option>
+      <option value="Noire">Noire</option>
+    </select>
+    <button onclick="window.print()">🖨️ Imprimer / Exporter en PDF</button>
+  </div>
+
+  <div class="page" id="page">
+
+    <!-- Ceinture de couleur en fond -->
+    <div class="belt-wrap" id="beltWrap">
+      <svg viewBox="0 0 478.619 184.762" xmlns="http://www.w3.org/2000/svg">
+        <g fill="currentColor" stroke="#333333" stroke-width="4">
+          <path d="M192.044,46.054c0,0-1.475,4.952,0.21,7.375c1.686,2.423,24.86,1.791,24.86,1.791L205.845,45L192.044,46.054z"/>
+          <path d="M9.831,23.198c0,0,119.181,32.087,233.779,32.087c114.598,0,214.679-51.187,218.5-53.479c3.819-2.292,12.987,38.963,0.765,48.131c-12.225,9.168-80.983,48.896-216.208,48.896c-135.226,0-233.015-21.392-239.892-29.032C-0.101,62.161-0.101,31.602,9.831,23.198z"/>
+          <path d="M252.014,126.336c0,0-22.156-6.112-28.268-21.392c-6.111-15.279,58.827-29.795,58.827-29.795l-6.112,31.324L252.014,126.336z"/>
+          <path d="M195.479,102.652c0,0,30.56,21.392,35.143,19.1c4.584-2.292,58.827-36.671,58.827-36.671L243.61,51.465l-50.423,38.2L195.479,102.652z"/>
+          <path d="M22.818,152.312c0,0,125.293-76.398,200.928-106.958c75.635-30.56,30.56,29.031,30.56,29.031s-78.69,38.199-110.778,57.299s-81.746,50.424-87.858,51.188C49.558,183.635,22.818,152.312,22.818,152.312z"/>
+          <path d="M255.967,27.303c0,0-5.29-1.851-14.146,8.46c-8.857,10.312,15.07,8.197,15.07,8.197L255.967,27.303z"/>
+          <path d="M232.15,28.546c0,0,94.734,49.659,127.586,60.355c32.851,10.696,113.832,46.603,116.889,55.771s-27.503,30.559-27.503,30.559s-23.685-21.391-54.243-34.379c-30.56-12.987-83.274-34.379-112.306-48.131c-29.031-13.751-89.387-47.367-89.387-47.367L232.15,28.546z"/>
+          <path d="M255.834,27.782c0,0-2.292,92.442-4.584,97.026c-2.293,4.584,42.783-12.987,43.546-18.335c0.765-5.349,6.877-50.423,2.293-55.007S260.417,25.49,255.834,27.782z"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- Logo FFK gauche -->
+    <div class="top-left">
+      <img src="FFK_V_RVB-2.png" alt="Logo FFK" style="width: 70mm; height: auto;" />
+    </div>
+
+    <!-- Logo FFK droite -->
+    <div class="top-right">
+      <img src="FFK_V_RVB-2.png" alt="Logo FFK" style="width: 70mm; height: auto;" />
+    </div>
+
+    <main class="content">
+      <h1>DIPLÔME DE CEINTURE</h1>
+
+      <div class="belt" id="beltText">orange</div>
+
+      <h2>DE KARATÉ MIX</h2>
+
+      <div class="small-title">Délivré à</div>
+
+      <div class="name" contenteditable="true">Delauzun Sacha</div>
+
+      <div class="date">le 18 / 06 / 2025</div>
+
+      <div class="club">Par le club de MMA La Bouilladisse et Peypin</div>
+
+      <div class="teacher-label">Enseignant :</div>
+
+      <div class="teacher">CÉDRIC TISSEYRE</div>
+
+      <div class="dan">6<sup>EME</sup>DAN DE KARATÉ MIX</div>
+    </main>
+
+    <!-- Logo Club Ratel -->
+    <div class="bottom-left">
+      <img src="ratel4-noir-rond.png" alt="Logo Club Ratel" style="width: 70mm; height: auto;" />
+    </div>
+
+    <!-- Logo Do -->
+    <div class="bottom-right">
+      <img src="do-kanji.gif" alt="Idéogramme Do" style="width: 70mm; height: auto;" />
+    </div>
+
+  </div>
+
+  <script>
+    const COULEURS = {
+      Jaune:  "#f7d417",
+      Orange: "#e8771a",
+      Verte:  "#1a8f3c",
+      Bleu:   "#1c5fb0",
+      Marron: "#5a3219",
+      Noire:  "#111111"
+    };
+
+    function changerCeinture(grade) {
+      const wrap = document.getElementById("beltWrap");
+      const texte = document.getElementById("beltText");
+      wrap.style.setProperty("--belt-color", COULEURS[grade] || "#e67e22");
+      texte.textContent = grade;
+    }
+
+    // Initialisation au chargement
+    changerCeinture(document.getElementById("grade").value);
+  </script>
+</body>
+</html>
