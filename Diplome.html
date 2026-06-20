@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Diplôme de ceinture - Karaté Mix</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #eeeeee;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .page {
+      width: 297mm;
+      height: 210mm;
+      background: white;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      padding: 18mm 20mm;
+    }
+
+    .top-left,
+    .top-right,
+    .bottom-left,
+    .bottom-right {
+      position: absolute;
+    }
+
+    .top-left {
+      top: 8mm;
+      left: 2mm;
+    }
+
+    .top-right {
+      top: 8mm;
+      right: 2mm;
+    }
+
+    .logo-symbol {
+      width: 30mm;
+      height: 22mm;
+      margin: 0 auto 2mm auto;
+      position: relative;
+    }
+
+    .logo-symbol span {
+      position: absolute;
+      display: block;
+      width: 8mm;
+      height: 22mm;
+      background: #253b7e;
+      border-radius: 7mm 7mm 2mm 2mm;
+      transform-origin: bottom center;
+    }
+
+    .logo-symbol span:nth-child(1) {
+      left: 2mm;
+      transform: rotate(-22deg);
+    }
+
+    .logo-symbol span:nth-child(2) {
+      left: 8mm;
+      transform: rotate(-10deg);
+    }
+
+    .logo-symbol span:nth-child(3) {
+      left: 14mm;
+      transform: rotate(5deg);
+    }
+
+    .logo-symbol span:nth-child(4) {
+      left: 20mm;
+      transform: rotate(22deg);
+    }
+
+    .logo-symbol::after {
+      content: "";
+      position: absolute;
+      left: 8mm;
+      bottom: -5mm;
+      width: 23mm;
+      height: 8mm;
+      background: #e23c65;
+      clip-path: polygon(0 55%, 42% 100%, 100% 18%, 100% 58%, 42% 100%, 0 80%);
+    }
+
+    .ffk-text {
+      font-size: 15mm;
+      letter-spacing: 1mm;
+      line-height: 1;
+    }
+
+    .karate-mix-text {
+      font-size: 7.5mm;
+      letter-spacing: 0.8mm;
+      line-height: 1.15;
+    }
+
+    .content {
+      text-align: center;
+      color: #1a1a1a;
+      position: relative;
+      z-index: 2;
+      padding-top: 0;
+    }
+
+    h1 {
+      font-family: Arial Black, Impact, sans-serif;
+      font-size: 14mm;
+      margin: 0 0 8mm 0;
+      font-weight: 900;
+      letter-spacing: -0.5mm;
+    }
+
+    .belt {
+      font-size: 8mm;
+      font-weight: 700;
+      display: inline-block;
+      min-width: 98mm;
+      border-bottom: 1.5px dashed #555;
+      line-height: 8mm;
+      margin-bottom: 10mm;
+      outline: none;
+    }
+
+    .belt:focus {
+      background: #f0f6ff;
+      border-bottom-color: #243a7a;
+    }
+
+    h2 {
+      font-family: Arial Black, Impact, sans-serif;
+      font-size: 14mm;
+      margin: 0 0 6mm 0;
+      font-weight: 900;
+      letter-spacing: -0.4mm;
+    }
+
+    .small-title {
+      font-size: 8.5mm;
+      font-weight: 500;
+      margin-bottom: 8mm;
+    }
+
+    .name {
+      font-size: 8.8mm;
+      font-weight: 500;
+      display: inline-block;
+      min-width: 140mm;
+      border-bottom: 1.5px dashed #555;
+      line-height: 9mm;
+      margin-bottom: 8mm;
+      outline: none;
+    }
+
+    .name:focus {
+      background: #f0f6ff;
+      border-bottom-color: #243a7a;
+    }
+
+    .date {
+      font-size: 7.3mm;
+      font-weight: 700;
+      margin-bottom: 8mm;
+    }
+
+    .club {
+      font-size: 6.6mm;
+      font-weight: 800;
+      margin-bottom: 7mm;
+    }
+
+    .teacher-label {
+      font-size: 8.2mm;
+      font-weight: 500;
+      margin-bottom: 2mm;
+    }
+
+    .teacher {
+      font-size: 8mm;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .dan {
+      font-size: 8mm;
+      font-weight: 900;
+    }
+
+    .dan sup {
+      font-size: 4mm;
+      vertical-align: super;
+      margin-left: 1mm;
+      margin-right: 1mm;
+    }
+
+    .bottom-left {
+      left: 8mm;
+      bottom: 8mm;
+    }
+
+    .bottom-right {
+      right: 8mm;
+      bottom: 8mm;
+    }
+
+    .note {
+      position: absolute;
+      bottom: 4mm;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: #999;
+      font-size: 3mm;
+      display: none;
+    }
+
+    .toolbar {
+      text-align: center;
+      padding: 8px 0 12px 0;
+    }
+
+    .toolbar button {
+      background: #243a7a;
+      color: white;
+      border: none;
+      padding: 10px 28px;
+      font-size: 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+    }
+
+    .toolbar button:hover {
+      background: #1a2e60;
+    }
+
+    @media print {
+      .toolbar {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="toolbar">
+    <button onclick="window.print()">🖨️ Imprimer / Exporter en PDF</button>
+  </div>
+  <div class="page">
+
+    <!-- Logo FFK gauche -->
+    <div class="top-left">
+      <img src="FFK_V_RVB-2.png" alt="Logo FFK" style="width: 70mm; height: auto;" />
+    </div>
+
+    <!-- Logo FFK droite -->
+    <div class="top-right">
+      <img src="FFK_V_RVB-2.png" alt="Logo FFK" style="width: 70mm; height: auto;" />
+    </div>
+
+    <main class="content">
+      <h1>DIPLÔME DE CEINTURE</h1>
+
+      <div class="belt" contenteditable="true">orange</div>
+
+      <h2>DE KARATÉ MIX</h2>
+
+      <div class="small-title">Délivré à</div>
+
+      <div class="name" contenteditable="true">Delauzun Sacha</div>
+
+      <div class="date">le 18 / 06 / 2025</div>
+
+      <div class="club">Par le club de MMA La Bouilladisse et Peypin</div>
+
+      <div class="teacher-label">Enseignant :</div>
+
+      <div class="teacher">CÉDRIC TISSEYRE</div>
+
+      <div class="dan">6<sup>EME</sup>DAN DE KARATÉ MIX</div>
+    </main>
+
+    <!-- Logo Club Ratel -->
+    <div class="bottom-left">
+      <img src="ratel4-noir-rond.png" alt="Logo Club Ratel" style="width: 70mm; height: auto;" />
+    </div>
+
+    <!-- Logo Do -->
+    <div class="bottom-right">
+      <img src="do-kanji.gif" alt="Idéogramme Do" style="width: 70mm; height: auto;" />
+    </div>
+
+  </div>
+</body>
+</html>

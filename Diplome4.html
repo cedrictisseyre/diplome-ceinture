@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Diplôme K-Mix — Éco impression</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      margin: 0;
+      background: #e8e8e8;
+      font-family: 'Arial Black', Arial, sans-serif;
+    }
+
+    /* ── Toolbar ── */
+    .toolbar {
+      text-align: center;
+      padding: 10px 0 14px 0;
+    }
+
+    .toolbar button {
+      background: #8b0000;
+      color: white;
+      border: none;
+      padding: 10px 30px;
+      font-size: 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .toolbar button:hover { background: #600000; }
+
+    @media print {
+      .toolbar { display: none; }
+      body { background: white; }
+    }
+
+    /* ── Page ── */
+    .page {
+      width: 297mm;
+      height: 210mm;
+      background: #ffffff;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── Cadre simple ── */
+    .border-outer {
+      position: absolute;
+      inset: 5mm;
+      border: 0.6mm solid #8b0000;
+    }
+
+    .border-inner {
+      position: absolute;
+      inset: 7mm;
+      border: 0.2mm solid #8b0000;
+    }
+
+    /* ── Bande rouge fine à gauche ── */
+    .accent-left {
+      position: absolute;
+      top: 5mm;
+      bottom: 5mm;
+      left: 5mm;
+      width: 55mm;
+      border-right: 0.5mm solid #8b0000;
+    }
+
+    /* ── Logos ── */
+    .logo-top {
+      position: absolute;
+      top: 9mm;
+      left: 9mm;
+      width: 47mm;
+      display: flex;
+      justify-content: center;
+    }
+
+    .logo-bottom {
+      position: absolute;
+      bottom: 9mm;
+      left: 9mm;
+      width: 47mm;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* ── Filigrane Do ── */
+    .logo-do {
+      position: absolute;
+      bottom: 8mm;
+      right: 6mm;
+      opacity: 0.06;
+      z-index: 0;
+    }
+
+    /* ── Contenu principal ── */
+    .content {
+      position: absolute;
+      top: 8mm;
+      bottom: 8mm;
+      left: 60mm;
+      right: 5mm;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 0 6mm 0 6mm;
+      z-index: 2;
+    }
+
+    .tag-kmix {
+      font-family: Arial, sans-serif;
+      font-size: 3mm;
+      font-weight: 700;
+      letter-spacing: 3.5mm;
+      color: #8b0000;
+      text-transform: uppercase;
+      margin-bottom: 1.5mm;
+    }
+
+    .title-main {
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: 15mm;
+      font-weight: 900;
+      color: #111111;
+      letter-spacing: -0.5mm;
+      line-height: 0.92;
+      text-transform: uppercase;
+    }
+
+    .title-sub {
+      font-family: Arial, sans-serif;
+      font-size: 6mm;
+      font-weight: 700;
+      color: #8b0000;
+      letter-spacing: 2.5mm;
+      text-transform: uppercase;
+      margin-bottom: 4mm;
+    }
+
+    .separator {
+      width: 100%;
+      height: 0.4mm;
+      background: #8b0000;
+      margin-bottom: 4mm;
+      opacity: 0.4;
+    }
+
+    .label-decerne {
+      font-family: Arial, sans-serif;
+      font-size: 3.2mm;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1.5mm;
+      margin-bottom: 1mm;
+    }
+
+    .name {
+      font-family: Georgia, serif;
+      font-size: 10mm;
+      font-weight: 700;
+      font-style: italic;
+      color: #111;
+      min-width: 80mm;
+      border-bottom: 0.5mm solid #8b0000;
+      padding-bottom: 1mm;
+      margin-bottom: 4mm;
+      outline: none;
+      display: inline-block;
+    }
+
+    .name:focus { background: #fff5f5; }
+
+    .row-info {
+      display: flex;
+      align-items: center;
+      gap: 4mm;
+      margin-bottom: 4mm;
+    }
+
+    .label-belt {
+      font-family: Arial, sans-serif;
+      font-size: 3.2mm;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1mm;
+    }
+
+    /* Badge ceinture : contour seulement, pas de fond plein */
+    .belt-badge {
+      display: inline-block;
+      border: 0.6mm solid #8b0000;
+      color: #8b0000;
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: 5.5mm;
+      font-weight: 900;
+      letter-spacing: 1.5mm;
+      text-transform: uppercase;
+      padding: 1.5mm 7mm;
+      clip-path: polygon(4% 0%, 100% 0%, 96% 100%, 0% 100%);
+      min-width: 40mm;
+      text-align: center;
+      outline: none;
+    }
+
+    .belt-badge:focus { background: #fff5f5; }
+
+    .bottom-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5mm;
+    }
+
+    .club-line {
+      font-family: Arial, sans-serif;
+      font-size: 3.5mm;
+      font-weight: 700;
+      color: #222;
+      text-transform: uppercase;
+      letter-spacing: 0.3mm;
+    }
+
+    .teacher-line {
+      font-family: Arial, sans-serif;
+      font-size: 3.2mm;
+      color: #555;
+    }
+
+    .teacher-line strong {
+      color: #8b0000;
+      font-weight: 900;
+    }
+
+    .date-line {
+      font-family: Arial, sans-serif;
+      font-size: 3.2mm;
+      color: #888;
+      margin-top: 0.5mm;
+    }
+
+    /* ── Dojo Kun ── */
+    .dojo-kun {
+      position: absolute;
+      right: 6mm;
+      top: 12mm;
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3mm;
+    }
+
+    .dojo-kun span {
+      font-family: Georgia, serif;
+      font-size: 3.5mm;
+      font-style: italic;
+      color: rgba(0,0,0,0.18);
+      white-space: nowrap;
+    }
+
+    .dojo-kun span::before {
+      content: "· ";
+      color: #8b0000;
+      opacity: 0.4;
+      font-style: normal;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="toolbar">
+    <button onclick="window.print()">🖨️ Imprimer / Exporter en PDF</button>
+  </div>
+
+  <div class="page">
+
+    <!-- Cadres -->
+    <div class="border-outer"></div>
+    <div class="border-inner"></div>
+
+    <!-- Séparation gauche -->
+    <div class="accent-left"></div>
+
+    <!-- Logo FFK haut gauche -->
+    <div class="logo-top">
+      <img src="FFK_V_RVB-2.png" alt="Logo FFK" style="width: 46mm; height: auto;" />
+    </div>
+
+    <!-- Logo Ratel bas gauche -->
+    <div class="logo-bottom">
+      <img src="ratel4-noir-rond.png" alt="Logo Club Ratel" style="width: 42mm; height: auto;" />
+    </div>
+
+    <!-- Filigrane Do -->
+    <div class="logo-do">
+      <img src="do-kanji.gif" alt="Do" style="width: 85mm; height: auto;" />
+    </div>
+
+    <!-- Dojo Kun -->
+    <div class="dojo-kun">
+      <span>Chercher la perfection du caractère</span>
+      <span>Soyez fidèle</span>
+      <span>Soyez constant dans l'effort</span>
+      <span>Respecter les autres</span>
+      <span>Retenez toute conduite violente</span>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="content">
+
+      <div class="tag-kmix">K-Mix · Karaté Mix</div>
+
+      <div class="title-main">DIPLÔME</div>
+      <div class="title-sub">de ceinture</div>
+
+      <div class="separator"></div>
+
+      <div class="label-decerne">Décerné à</div>
+
+      <div class="name" contenteditable="true">Delauzun Sacha</div>
+
+      <div class="row-info">
+        <span class="label-belt">Ceinture</span>
+        <div class="belt-badge" contenteditable="true">Orange</div>
+      </div>
+
+      <div class="separator" style="width:55%; margin-bottom: 3mm;"></div>
+
+      <div class="bottom-info">
+        <div class="club-line">Club de MMA — La Bouilladisse &amp; Peypin</div>
+        <div class="teacher-line">Enseignant : <strong>CÉDRIC TISSEYRE</strong> · 6<sup>e</sup> Dan de Karaté Mix</div>
+        <div class="date-line">Le 18 / 06 / 2025</div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

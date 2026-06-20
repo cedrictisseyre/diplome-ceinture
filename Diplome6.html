@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Diplôme K-Mix — Design Moderne Éco</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      margin: 0;
+      background: #dcdcdc;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    /* ── Toolbar ── */
+    .toolbar {
+      text-align: center;
+      padding: 10px 0 14px 0;
+    }
+
+    .toolbar button {
+      background: #111;
+      color: white;
+      border: none;
+      padding: 10px 30px;
+      font-size: 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .toolbar button:hover { background: #333; }
+
+    @media print {
+      .toolbar { display: none; }
+      body { background: white; }
+    }
+
+    /* ── Page ── */
+    .page {
+      width: 297mm;
+      height: 210mm;
+      background: #ffffff;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── Grand chiffre filigrane ── */
+    .watermark-belt {
+      position: absolute;
+      right: -10mm;
+      bottom: -30mm;
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: 180mm;
+      font-weight: 900;
+      color: #f4f4f4;
+      line-height: 1;
+      z-index: 0;
+      user-select: none;
+    }
+
+    /* ── En-tête ── */
+    .header {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12mm 16mm 0 16mm;
+    }
+
+    .header img {
+      height: 22mm;
+      width: auto;
+    }
+
+    .header-center {
+      text-align: center;
+      flex: 1;
+    }
+
+    .header-center .fed {
+      font-size: 2.8mm;
+      font-weight: 700;
+      letter-spacing: 2.5mm;
+      color: #8b0000;
+      text-transform: uppercase;
+    }
+
+    /* ── Trait rouge fin pleine largeur ── */
+    .rule {
+      position: relative;
+      z-index: 2;
+      height: 0.6mm;
+      background: #8b0000;
+      margin: 6mm 16mm 0 16mm;
+    }
+
+    /* ── Corps ── */
+    .body-area {
+      position: relative;
+      z-index: 2;
+      padding: 0 16mm;
+      margin-top: 9mm;
+    }
+
+    .kicker {
+      font-size: 3mm;
+      font-weight: 700;
+      letter-spacing: 4mm;
+      color: #999;
+      text-transform: uppercase;
+      margin-bottom: 2mm;
+    }
+
+    .title-main {
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: 18mm;
+      font-weight: 900;
+      color: #111;
+      line-height: 0.95;
+      letter-spacing: -1mm;
+      text-transform: uppercase;
+      margin-bottom: 1mm;
+    }
+
+    .title-accent {
+      color: #8b0000;
+    }
+
+    .subtitle {
+      font-size: 5mm;
+      font-weight: 300;
+      color: #555;
+      letter-spacing: 1mm;
+      text-transform: uppercase;
+      margin-bottom: 12mm;
+    }
+
+    /* ── Ligne nom + ceinture ── */
+    .award-grid {
+      display: flex;
+      gap: 14mm;
+      align-items: flex-end;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .field-label {
+      font-size: 2.8mm;
+      font-weight: 700;
+      letter-spacing: 1.5mm;
+      color: #999;
+      text-transform: uppercase;
+      margin-bottom: 2mm;
+    }
+
+    .field-name .field-value {
+      font-family: Georgia, serif;
+      font-size: 11mm;
+      font-weight: 700;
+      color: #111;
+      border-bottom: 0.5mm solid #111;
+      padding-bottom: 1.5mm;
+      min-width: 110mm;
+      outline: none;
+    }
+
+    .field-name .field-value:focus { background: #f6f6f6; }
+
+    .field-belt .field-value {
+      font-family: 'Arial Black', Arial, sans-serif;
+      font-size: 9mm;
+      font-weight: 900;
+      color: #8b0000;
+      text-transform: uppercase;
+      letter-spacing: 1.5mm;
+      border-bottom: 0.5mm solid #8b0000;
+      padding-bottom: 1.5mm;
+      min-width: 55mm;
+      text-align: center;
+      outline: none;
+    }
+
+    .field-belt .field-value:focus { background: #fff6f6; }
+
+    /* ── Pied ── */
+    .footer {
+      position: absolute;
+      bottom: 12mm;
+      left: 16mm;
+      right: 16mm;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .footer .rule-foot {
+      height: 0.4mm;
+      background: #ddd;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: -6mm;
+    }
+
+    .sign-block .s-name {
+      font-size: 4mm;
+      font-weight: 900;
+      color: #111;
+      text-transform: uppercase;
+      letter-spacing: 0.5mm;
+    }
+
+    .sign-block .s-role {
+      font-size: 3mm;
+      color: #888;
+    }
+
+    .date-block {
+      text-align: center;
+    }
+
+    .date-block .d-label {
+      font-size: 2.6mm;
+      font-weight: 700;
+      letter-spacing: 1.5mm;
+      color: #999;
+      text-transform: uppercase;
+    }
+
+    .date-block .d-value {
+      font-size: 4mm;
+      font-weight: 700;
+      color: #111;
+    }
+
+    .club-block {
+      text-align: right;
+      display: flex;
+      align-items: center;
+      gap: 3mm;
+    }
+
+    .club-block .c-text {
+      font-size: 3mm;
+      font-weight: 700;
+      color: #444;
+      text-transform: uppercase;
+      letter-spacing: 0.3mm;
+      max-width: 45mm;
+      text-align: right;
+    }
+
+    .club-block img {
+      height: 16mm;
+      width: auto;
+    }
+
+    /* ── Dojo Kun vertical fin à gauche du corps ── */
+    .dojo-kun {
+      position: absolute;
+      left: 16mm;
+      bottom: 30mm;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5mm;
+    }
+
+    .dojo-kun span {
+      font-family: Georgia, serif;
+      font-size: 2.7mm;
+      font-style: italic;
+      color: #aaa;
+    }
+
+    .dojo-kun span::before {
+      content: "— ";
+      color: #8b0000;
+      opacity: 0.5;
+      font-style: normal;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="toolbar">
+    <button onclick="window.print()">🖨️ Imprimer / Exporter en PDF</button>
+  </div>
+
+  <div class="page">
+
+    <!-- Filigrane K -->
+    <div class="watermark-belt">K</div>
+
+    <!-- En-tête -->
+    <div class="header">
+      <img src="FFK_V_RVB-2.png" alt="Logo FFK" />
+      <div class="header-center">
+        <div class="fed">Fédération Française de Karaté</div>
+      </div>
+      <img src="FFK_V_RVB-2.png" alt="Logo FFK" />
+    </div>
+
+    <div class="rule"></div>
+
+    <!-- Corps -->
+    <div class="body-area">
+      <div class="kicker">K-Mix · Karaté Mix</div>
+      <div class="title-main">Diplôme <span class="title-accent">de Ceinture</span></div>
+      <div class="subtitle">Discipline · Respect · Dépassement</div>
+
+      <div class="award-grid">
+        <div class="field field-name">
+          <div class="field-label">Décerné à</div>
+          <div class="field-value" contenteditable="true">Delauzun Sacha</div>
+        </div>
+        <div class="field field-belt">
+          <div class="field-label">Ceinture</div>
+          <div class="field-value" contenteditable="true">Orange</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dojo Kun -->
+    <div class="dojo-kun">
+      <span>Chercher la perfection du caractère</span>
+      <span>Soyez fidèle</span>
+      <span>Soyez constant dans l'effort</span>
+      <span>Respecter les autres</span>
+      <span>Retenez toute conduite violente</span>
+    </div>
+
+    <!-- Pied -->
+    <div class="footer">
+      <div class="rule-foot"></div>
+
+      <div class="sign-block">
+        <div class="s-name">Cédric Tisseyre</div>
+        <div class="s-role">6<sup>e</sup> Dan de Karaté Mix — Enseignant</div>
+      </div>
+
+      <div class="date-block">
+        <div class="d-label">Délivré le</div>
+        <div class="d-value">18 / 06 / 2025</div>
+      </div>
+
+      <div class="club-block">
+        <div class="c-text">Club de MMA La Bouilladisse &amp; Peypin</div>
+        <img src="ratel4-noir-rond.png" alt="Logo Ratel" />
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Diplôme K-Mix — Design Élégant Éco</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      margin: 0;
+      background: #ddd;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    /* ── Toolbar ── */
+    .toolbar {
+      text-align: center;
+      padding: 10px 0 14px 0;
+    }
+
+    .toolbar button {
+      background: #2c3e50;
+      color: white;
+      border: none;
+      padding: 10px 30px;
+      font-size: 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+      font-weight: 700;
+    }
+
+    .toolbar button:hover { background: #1a252f; }
+
+    @media print {
+      .toolbar { display: none; }
+      body { background: white; }
+    }
+
+    /* ── Page ── */
+    .page {
+      width: 297mm;
+      height: 210mm;
+      background: #ffffff;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ── Bordure double fine ── */
+    .border-outer {
+      position: absolute;
+      inset: 4mm;
+      border: 0.5mm solid #2c3e50;
+    }
+
+    .border-inner {
+      position: absolute;
+      inset: 6.5mm;
+      border: 0.2mm solid #2c3e50;
+    }
+
+    /* ── Ornements coins ── */
+    .corner {
+      position: absolute;
+      width: 14mm;
+      height: 14mm;
+    }
+
+    .corner svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .corner-tl { top: 3mm;  left: 3mm; }
+    .corner-tr { top: 3mm;  right: 3mm;  transform: scaleX(-1); }
+    .corner-bl { bottom: 3mm; left: 3mm;  transform: scaleY(-1); }
+    .corner-br { bottom: 3mm; right: 3mm;  transform: scale(-1,-1); }
+
+    /* ── Logos en haut ── */
+    .logos-row {
+      position: absolute;
+      top: 9mm;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 0 18mm;
+      z-index: 2;
+    }
+
+    /* ── Logo Do filigrane ── */
+    .logo-do {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.04;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── Contenu central ── */
+    .content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      width: 100%;
+      padding: 0 20mm;
+      margin-top: 14mm;
+    }
+
+    /* Ligne décorative avec ornement */
+    .ornament-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3mm;
+      margin: 2.5mm 0;
+    }
+
+    .ornament-line .line {
+      flex: 1;
+      max-width: 55mm;
+      height: 0.3mm;
+      background: #2c3e50;
+      opacity: 0.35;
+    }
+
+    .ornament-line .diamond {
+      width: 2.5mm;
+      height: 2.5mm;
+      border: 0.4mm solid #8b0000;
+      transform: rotate(45deg);
+      flex-shrink: 0;
+    }
+
+    /* ── Titre fédération ── */
+    .fed-label {
+      font-family: Arial, sans-serif;
+      font-size: 3mm;
+      font-weight: 700;
+      letter-spacing: 3.5mm;
+      color: #8b0000;
+      text-transform: uppercase;
+      margin-bottom: 1mm;
+    }
+
+    /* ── Grand titre ── */
+    .title-main {
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: 13.5mm;
+      font-weight: 900;
+      color: #1a1a1a;
+      letter-spacing: 1mm;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .title-sub {
+      font-family: Georgia, serif;
+      font-size: 5.5mm;
+      font-weight: 400;
+      font-style: italic;
+      color: #555;
+      letter-spacing: 0.5mm;
+      margin-bottom: 0;
+    }
+
+    /* ── Corps ── */
+    .decerne {
+      font-family: Georgia, serif;
+      font-size: 4mm;
+      font-style: italic;
+      color: #666;
+      margin-bottom: 1mm;
+    }
+
+    .name {
+      font-family: Georgia, serif;
+      font-size: 10.5mm;
+      font-weight: 700;
+      font-style: italic;
+      color: #1a1a1a;
+      border-bottom: 0.5mm solid #2c3e50;
+      padding: 0 6mm 1mm 6mm;
+      display: inline-block;
+      min-width: 90mm;
+      outline: none;
+    }
+
+    .name:focus { background: #f7faff; }
+
+    .pour-label {
+      font-family: Georgia, serif;
+      font-size: 3.8mm;
+      font-style: italic;
+      color: #666;
+      margin-bottom: 1.5mm;
+    }
+
+    /* Badge ceinture : juste du texte encadré en traits fins */
+    .belt-badge {
+      display: inline-block;
+      border-top: 0.4mm solid #8b0000;
+      border-bottom: 0.4mm solid #8b0000;
+      color: #8b0000;
+      font-family: 'Arial Black', Arial, sans-serif;
+      font-size: 7mm;
+      font-weight: 900;
+      letter-spacing: 3mm;
+      text-transform: uppercase;
+      padding: 1mm 10mm;
+      outline: none;
+      min-width: 50mm;
+      text-align: center;
+    }
+
+    .belt-badge:focus { background: #fff8f8; }
+
+    /* ── Pied ── */
+    .footer-row {
+      position: absolute;
+      bottom: 9mm;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 0 18mm;
+      z-index: 2;
+    }
+
+    .footer-block {
+      text-align: center;
+    }
+
+    .footer-block .f-name {
+      font-family: Arial, sans-serif;
+      font-size: 3.8mm;
+      font-weight: 900;
+      color: #1a1a1a;
+      text-transform: uppercase;
+      letter-spacing: 0.5mm;
+    }
+
+    .footer-block .f-role {
+      font-family: Arial, sans-serif;
+      font-size: 3mm;
+      color: #888;
+      font-style: italic;
+    }
+
+    .footer-block .f-date {
+      font-family: Arial, sans-serif;
+      font-size: 3.5mm;
+      color: #444;
+      font-weight: 700;
+    }
+
+    .footer-block .f-club {
+      font-family: Arial, sans-serif;
+      font-size: 3mm;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.3mm;
+    }
+
+    /* ── Dojo Kun bas de page, centré, très discret ── */
+    .dojo-kun {
+      position: absolute;
+      bottom: 5mm;
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 3;
+    }
+
+    .dojo-kun span {
+      font-family: Georgia, serif;
+      font-size: 2.5mm;
+      font-style: italic;
+      color: rgba(0,0,0,0.2);
+    }
+
+    .dojo-kun .sep {
+      color: #8b0000;
+      opacity: 0.35;
+      font-style: normal;
+      margin: 0 1.5mm;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="toolbar">
+    <button onclick="window.print()">🖨️ Imprimer / Exporter en PDF</button>
+  </div>
+
+  <div class="page">
+
+    <!-- Bordures -->
+    <div class="border-outer"></div>
+    <div class="border-inner"></div>
+
+    <!-- Ornements coins SVG -->
+    <div class="corner corner-tl">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 38 L2 2 L38 2" stroke="#8b0000" stroke-width="1.2"/>
+        <path d="M2 20 L10 20 M20 2 L20 10" stroke="#2c3e50" stroke-width="0.6" opacity="0.5"/>
+        <rect x="17" y="17" width="6" height="6" transform="rotate(45 20 20)" stroke="#8b0000" stroke-width="0.8" fill="none"/>
+      </svg>
+    </div>
+    <div class="corner corner-tr">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 38 L2 2 L38 2" stroke="#8b0000" stroke-width="1.2"/>
+        <path d="M2 20 L10 20 M20 2 L20 10" stroke="#2c3e50" stroke-width="0.6" opacity="0.5"/>
+        <rect x="17" y="17" width="6" height="6" transform="rotate(45 20 20)" stroke="#8b0000" stroke-width="0.8" fill="none"/>
+      </svg>
+    </div>
+    <div class="corner corner-bl">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 38 L2 2 L38 2" stroke="#8b0000" stroke-width="1.2"/>
+        <path d="M2 20 L10 20 M20 2 L20 10" stroke="#2c3e50" stroke-width="0.6" opacity="0.5"/>
+        <rect x="17" y="17" width="6" height="6" transform="rotate(45 20 20)" stroke="#8b0000" stroke-width="0.8" fill="none"/>
+      </svg>
+    </div>
+    <div class="corner corner-br">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 38 L2 2 L38 2" stroke="#8b0000" stroke-width="1.2"/>
+        <path d="M2 20 L10 20 M20 2 L20 10" stroke="#2c3e50" stroke-width="0.6" opacity="0.5"/>
+        <rect x="17" y="17" width="6" height="6" transform="rotate(45 20 20)" stroke="#8b0000" stroke-width="0.8" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- Logos haut -->
+    <div class="logos-row">
+      <img src="FFK_V_RVB-2.png" alt="Logo FFK" style="width: 38mm; height: auto;" />
+      <img src="FFK_V_RVB-2.png" alt="Logo FFK" style="width: 38mm; height: auto;" />
+    </div>
+
+    <!-- Filigrane Do centré -->
+    <div class="logo-do">
+      <img src="do-kanji.gif" alt="Do" style="width: 100mm; height: auto;" />
+    </div>
+
+    <!-- Contenu central -->
+    <div class="content">
+
+      <div class="fed-label">Fédération Française de Karaté</div>
+
+      <div class="title-main">Diplôme de Ceinture</div>
+      <div class="title-sub">de Karaté Mix</div>
+
+      <div class="ornament-line">
+        <div class="line"></div>
+        <div class="diamond"></div>
+        <div class="diamond"></div>
+        <div class="diamond"></div>
+        <div class="line"></div>
+      </div>
+
+      <div class="decerne">Est décerné à</div>
+
+      <div class="name" contenteditable="true">Delauzun Sacha</div>
+
+      <div class="ornament-line">
+        <div class="line"></div>
+        <div class="diamond"></div>
+        <div class="line"></div>
+      </div>
+
+      <div class="pour-label">pour l'obtention de la ceinture</div>
+
+      <div class="belt-badge" contenteditable="true">Orange</div>
+
+    </div>
+
+    <!-- Pied de page -->
+    <div class="footer-row">
+      <div class="footer-block">
+        <img src="ratel4-noir-rond.png" alt="Logo Ratel" style="width: 30mm; height: auto; display:block; margin: 0 auto 1mm auto;" />
+        <div class="f-club">Club de MMA — La Bouilladisse &amp; Peypin</div>
+      </div>
+
+      <div class="footer-block">
+        <div class="f-date">Le 18 / 06 / 2025</div>
+      </div>
+
+      <div class="footer-block">
+        <div class="f-name">Cédric Tisseyre</div>
+        <div class="f-role">6<sup>e</sup> Dan de Karaté Mix — Enseignant</div>
+      </div>
+    </div>
+
+    <!-- Dojo Kun discret -->
+    <div class="dojo-kun">
+      <span>Chercher la perfection du caractère</span>
+      <span class="sep">·</span>
+      <span>Soyez fidèle</span>
+      <span class="sep">·</span>
+      <span>Soyez constant dans l'effort</span>
+      <span class="sep">·</span>
+      <span>Respecter les autres</span>
+      <span class="sep">·</span>
+      <span>Retenez toute conduite violente</span>
+    </div>
+
+  </div>
+</body>
+</html>

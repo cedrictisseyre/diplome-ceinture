@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Diplôme K-Mix MMA</title>
+  <style>
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    body {
+      margin: 0;
+      background: #1a1a1a;
+      font-family: 'Arial Black', Impact, Arial, sans-serif;
+    }
+
+    /* ── Toolbar ── */
+    .toolbar {
+      text-align: center;
+      padding: 10px 0 14px 0;
+    }
+
+    .toolbar button {
+      background: #c0392b;
+      color: white;
+      border: none;
+      padding: 10px 30px;
+      font-size: 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      font-family: Arial, sans-serif;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .toolbar button:hover {
+      background: #922b21;
+    }
+
+    @media print {
+      .toolbar { display: none; }
+      body { background: #111; }
+    }
+
+    /* ── Page ── */
+    .page {
+      width: 297mm;
+      height: 210mm;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+      background: #111111;
+    }
+
+    /* ── Fond texture hexagones ── */
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          60deg,
+          transparent,
+          transparent 8mm,
+          rgba(255,255,255,0.018) 8mm,
+          rgba(255,255,255,0.018) 8.4mm
+        ),
+        repeating-linear-gradient(
+          -60deg,
+          transparent,
+          transparent 8mm,
+          rgba(255,255,255,0.018) 8mm,
+          rgba(255,255,255,0.018) 8.4mm
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 8mm,
+          rgba(255,255,255,0.018) 8mm,
+          rgba(255,255,255,0.018) 8.4mm
+        );
+      z-index: 0;
+    }
+
+    /* ── Diagonale rouge gauche ── */
+    .slash-left {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 68mm;
+      height: 210mm;
+      background: linear-gradient(175deg, #8b0000 0%, #c0392b 40%, #8b0000 100%);
+      clip-path: polygon(0 0, 82% 0, 100% 100%, 0 100%);
+      z-index: 1;
+    }
+
+    /* ── Filet blanc diagonal sur la bande rouge ── */
+    .slash-left::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        175deg,
+        transparent,
+        transparent 12mm,
+        rgba(255,255,255,0.06) 12mm,
+        rgba(255,255,255,0.06) 12.4mm
+      );
+    }
+
+    /* ── Bande noire avec bordure dorée bas ── */
+    .band-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 10mm;
+      background: #1a1a1a;
+      border-top: 0.8mm solid #c0392b;
+      z-index: 2;
+    }
+
+    /* ── Bande supérieure ── */
+    .band-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 9mm;
+      background: #1a1a1a;
+      border-bottom: 0.8mm solid #c0392b;
+      z-index: 2;
+    }
+
+    /* ── Logos colonne gauche (sur la bande rouge) ── */
+    .logo-left-top {
+      position: absolute;
+      top: 11mm;
+      left: 3mm;
+      z-index: 3;
+    }
+
+    .logo-left-bottom {
+      position: absolute;
+      bottom: 11mm;
+      left: 3mm;
+      z-index: 3;
+    }
+
+    /* ── Logo Do bas droite ── */
+    .logo-right-bottom {
+      position: absolute;
+      bottom: 10mm;
+      right: 5mm;
+      z-index: 3;
+      opacity: 0.12;
+    }
+
+    /* ── Contenu principal ── */
+    .content {
+      position: absolute;
+      top: 10mm;
+      bottom: 10mm;
+      left: 68mm;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 0 8mm 0 8mm;
+      z-index: 3;
+    }
+
+    .tag-kmix {
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: 3.2mm;
+      font-weight: 900;
+      letter-spacing: 4mm;
+      color: #c0392b;
+      text-transform: uppercase;
+      margin-bottom: 2mm;
+    }
+
+    .title-main {
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: 16mm;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.5mm;
+      line-height: 0.9;
+      text-transform: uppercase;
+      margin-bottom: 0;
+    }
+
+    .title-sub {
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: 7mm;
+      font-weight: 900;
+      color: #c0392b;
+      letter-spacing: 2mm;
+      text-transform: uppercase;
+      margin-bottom: 4mm;
+    }
+
+    .separator {
+      width: 100%;
+      height: 0.5mm;
+      background: linear-gradient(90deg, #c0392b, #ff6b6b, transparent);
+      margin-bottom: 4mm;
+    }
+
+    .label-decerne {
+      font-family: Arial, sans-serif;
+      font-size: 3.5mm;
+      font-weight: 400;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1.5mm;
+      margin-bottom: 1.5mm;
+    }
+
+    .name {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 11mm;
+      font-weight: 700;
+      font-style: italic;
+      color: #ffffff;
+      min-width: 80mm;
+      border-bottom: 0.5mm solid #c0392b;
+      padding-bottom: 1mm;
+      margin-bottom: 4mm;
+      outline: none;
+      display: inline-block;
+      background: transparent;
+    }
+
+    .name:focus {
+      background: rgba(192, 57, 43, 0.08);
+    }
+
+    .row-info {
+      display: flex;
+      align-items: center;
+      gap: 5mm;
+      margin-bottom: 4mm;
+    }
+
+    .label-belt {
+      font-family: Arial, sans-serif;
+      font-size: 3.2mm;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1mm;
+    }
+
+    .belt-badge {
+      display: inline-block;
+      background: #c0392b;
+      color: #ffffff;
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: 5.5mm;
+      font-weight: 900;
+      letter-spacing: 1.5mm;
+      text-transform: uppercase;
+      padding: 1.5mm 7mm;
+      clip-path: polygon(4% 0%, 100% 0%, 96% 100%, 0% 100%);
+      min-width: 40mm;
+      text-align: center;
+      outline: none;
+    }
+
+    .belt-badge:focus {
+      background: #922b21;
+    }
+
+    .bottom-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .club-line {
+      font-family: Arial, sans-serif;
+      font-size: 3.5mm;
+      font-weight: 700;
+      color: #cccccc;
+      text-transform: uppercase;
+      letter-spacing: 0.5mm;
+    }
+
+    .teacher-line {
+      font-family: Arial, sans-serif;
+      font-size: 3.2mm;
+      color: #888;
+    }
+
+    .teacher-line strong {
+      color: #c0392b;
+      font-weight: 900;
+    }
+
+    .date-line {
+      font-family: Arial, sans-serif;
+      font-size: 3.2mm;
+      color: #888;
+      margin-top: 1mm;
+    }
+
+    /* ── Dojo Kun empilé à droite ── */
+    .dojo-kun {
+      position: absolute;
+      right: 3mm;
+      top: 12mm;
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3mm;
+    }
+
+    .dojo-kun span {
+      font-family: Georgia, serif;
+      font-size: 3.5mm;
+      font-style: italic;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.2mm;
+      white-space: nowrap;
+    }
+
+    .dojo-kun span::before {
+      content: "· ";
+      color: #c0392b;
+      opacity: 0.6;
+      font-style: normal;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="toolbar">
+    <button onclick="window.print()">🖨️ Imprimer / Exporter en PDF</button>
+  </div>
+
+  <div class="page">
+
+    <!-- Fond diagonal rouge -->
+    <div class="slash-left"></div>
+
+    <!-- Bandes haut/bas -->
+    <div class="band-top"></div>
+    <div class="band-bottom"></div>
+
+    <!-- Dojo Kun empilé discret à droite -->
+    <div class="dojo-kun">
+      <span>Chercher la perfection du caractère</span>
+      <span>Soyez fidèle</span>
+      <span>Soyez constant dans l’effort</span>
+      <span>Respecter les autres</span>
+      <span>Retenez toute conduite violente</span>
+    </div>
+
+    <!-- Logo FFK haut gauche -->
+    <div class="logo-left-top">
+      <img src="FFK_V_RVB-2.png" alt="Logo FFK" style="width: 60mm; height: auto; filter: brightness(0) invert(1); opacity: 0.88;" />
+    </div>
+
+    <!-- Logo Ratel bas gauche -->
+    <div class="logo-left-bottom">
+      <img src="ratel4-noir-rond.png" alt="Logo Club Ratel" style="width: 55mm; height: auto; opacity: 0.95;" />
+    </div>
+
+    <!-- Logo Do en filigrane bas droite -->
+    <div class="logo-right-bottom">
+      <img src="do-kanji.gif" alt="Do" style="width: 90mm; height: auto; filter: brightness(0) invert(1);" />
+    </div>
+
+    <!-- Contenu texte -->
+    <div class="content">
+
+      <div class="tag-kmix">K-Mix · Karaté Mix</div>
+
+      <div class="title-main">DIPLÔME</div>
+      <div class="title-sub">de ceinture</div>
+
+      <div class="separator"></div>
+
+      <div class="label-decerne">Décerné à</div>
+
+      <div class="name" contenteditable="true">Delauzun Sacha</div>
+
+      <div class="row-info">
+        <span class="label-belt">Ceinture</span>
+        <div class="belt-badge" contenteditable="true">Orange</div>
+      </div>
+
+      <div class="separator" style="width:60%; margin-bottom: 3mm;"></div>
+
+      <div class="bottom-info">
+        <div class="club-line">Club de MMA — La Bouilladisse &amp; Peypin</div>
+        <div class="teacher-line">Enseignant : <strong>CÉDRIC TISSEYRE</strong> · 6<sup>e</sup> Dan de Karaté Mix</div>
+        <div class="date-line">Le 18 / 06 / 2025</div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
