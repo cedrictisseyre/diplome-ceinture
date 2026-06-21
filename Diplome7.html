@@ -88,7 +88,6 @@
       font-weight: 700;
       display: inline-block;
       min-width: 98mm;
-      border-bottom: 1.5px dashed #555;
       line-height: 8mm;
       margin-bottom: 10mm;
       text-transform: capitalize;
@@ -113,7 +112,6 @@
       font-weight: 500;
       display: inline-block;
       min-width: 140mm;
-      border-bottom: 1.5px dashed #555;
       line-height: 9mm;
       margin-bottom: 8mm;
       outline: none;
@@ -121,7 +119,6 @@
 
     .name:focus {
       background: #f0f6ff;
-      border-bottom-color: #243a7a;
     }
 
     .date {
@@ -225,12 +222,23 @@
   <div class="toolbar">
     <label for="grade">Grade :</label>
     <select id="grade" onchange="changerCeinture(this.value)">
-      <option value="Jaune">Jaune</option>
-      <option value="Orange" selected>Orange</option>
-      <option value="Verte">Verte</option>
-      <option value="Bleu">Bleu</option>
-      <option value="Marron">Marron</option>
-      <option value="Noire">Noire</option>
+      <optgroup label="Ceintures pleines">
+        <option value="Blanche">Blanche</option>
+        <option value="Jaune">Jaune</option>
+        <option value="Orange" selected>Orange</option>
+        <option value="Verte">Verte</option>
+        <option value="Bleue">Bleue</option>
+        <option value="Marron">Marron</option>
+        <option value="Noire">Noire</option>
+      </optgroup>
+      <optgroup label="Demi-ceintures">
+        <option value="Blanche-Jaune">Blanche / Jaune</option>
+        <option value="Jaune-Orange">Jaune / Orange</option>
+        <option value="Orange-Verte">Orange / Verte</option>
+        <option value="Verte-Bleue">Verte / Bleue</option>
+        <option value="Bleue-Marron">Bleue / Marron</option>
+        <option value="Marron-Noire">Marron / Noire</option>
+      </optgroup>
     </select>
     <button onclick="window.print()">🖨️ Imprimer / Exporter en PDF</button>
   </div>
@@ -240,7 +248,13 @@
     <!-- Ceinture de couleur en fond -->
     <div class="belt-wrap" id="beltWrap">
       <svg viewBox="0 0 478.619 184.762" xmlns="http://www.w3.org/2000/svg">
-        <g fill="currentColor" stroke="#333333" stroke-width="4">
+        <defs>
+          <linearGradient id="beltGradient" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="478.619" y2="0">
+            <stop offset="0%" stop-color="#e8771a"/>
+            <stop offset="100%" stop-color="#e8771a"/>
+          </linearGradient>
+        </defs>
+        <g fill="url(#beltGradient)" stroke="#333333" stroke-width="4">
           <path d="M192.044,46.054c0,0-1.475,4.952,0.21,7.375c1.686,2.423,24.86,1.791,24.86,1.791L205.845,45L192.044,46.054z"/>
           <path d="M9.831,23.198c0,0,119.181,32.087,233.779,32.087c114.598,0,214.679-51.187,218.5-53.479c3.819-2.292,12.987,38.963,0.765,48.131c-12.225,9.168-80.983,48.896-216.208,48.896c-135.226,0-233.015-21.392-239.892-29.032C-0.101,62.161-0.101,31.602,9.831,23.198z"/>
           <path d="M252.014,126.336c0,0-22.156-6.112-28.268-21.392c-6.111-15.279,58.827-29.795,58.827-29.795l-6.112,31.324L252.014,126.336z"/>
@@ -299,19 +313,56 @@
 
   <script>
     const COULEURS = {
-      Jaune:  "#f7d417",
-      Orange: "#e8771a",
-      Verte:  "#1a8f3c",
-      Bleu:   "#1c5fb0",
-      Marron: "#5a3219",
-      Noire:  "#111111"
+      Blanche: "#f2f2f2",
+      Jaune:   "#f7d417",
+      Orange:  "#e8771a",
+      Verte:   "#1a8f3c",
+      Bleue:   "#1c5fb0",
+      Marron:  "#5a3219",
+      Noire:   "#111111"
     };
 
+    const NS = "http://www.w3.org/2000/svg";
+    const NB_BANDES = 10; // nombre de bandes alternées pour une demi-ceinture
+
+    function poserStops(stops) {
+      const grad = document.getElementById("beltGradient");
+      grad.innerHTML = "";
+      for (const s of stops) {
+        const stop = document.createElementNS(NS, "stop");
+        stop.setAttribute("offset", s.offset);
+        stop.setAttribute("stop-color", s.color);
+        grad.appendChild(stop);
+      }
+    }
+
     function changerCeinture(grade) {
-      const wrap = document.getElementById("beltWrap");
       const texte = document.getElementById("beltText");
-      wrap.style.setProperty("--belt-color", COULEURS[grade] || "#e67e22");
-      texte.textContent = grade;
+      const parts = grade.split("-");
+      const colA = COULEURS[parts[0]] || "#e8771a";
+      const colB = parts[1] ? (COULEURS[parts[1]] || colA) : colA;
+
+      if (!parts[1]) {
+        // Ceinture pleine : une seule couleur
+        poserStops([
+          { offset: "0%", color: colA },
+          { offset: "100%", color: colA }
+        ]);
+      } else {
+        // Demi-ceinture : bandes alternées des deux couleurs
+        const stops = [];
+        const largeur = 100 / NB_BANDES;
+        for (let i = 0; i < NB_BANDES; i++) {
+          const c = (i % 2 === 0) ? colA : colB;
+          const debut = (i * largeur).toFixed(3) + "%";
+          const fin = ((i + 1) * largeur).toFixed(3) + "%";
+          stops.push({ offset: debut, color: c });
+          stops.push({ offset: fin, color: c });
+        }
+        poserStops(stops);
+      }
+
+      texte.textContent = grade.replace("-", " - ");
     }
 
     // Initialisation au chargement
